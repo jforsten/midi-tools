@@ -1,4 +1,4 @@
-# midifx
+# midi.tools
 
 ## Project setup
 ```
