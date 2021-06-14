@@ -2,7 +2,7 @@
   <v-container>
     <v-card>
       <v-card-title>
-        Channel aftertouch to Polyphone aftertouch
+        Channel to polyphonic aftertouch (last note)
       </v-card-title>
       <v-card-text>
         Process: <v-icon small :color="indicatorColor">mdi-circle</v-icon>
