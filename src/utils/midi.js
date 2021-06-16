@@ -35,6 +35,28 @@ export const Midi = {
    getInputById (inputId) {
     return Midi.midi.inputs.get(inputId)
   },
+
+  getOutputByName (name) {
+    let output = null
+    Midi.midi.outputs.forEach( function( port ) {
+      if(port.name == name ) { 
+        output = port
+        return
+      }
+    })
+    return output
+  },
+  
+   getInputByName (name) {
+    let input = null
+    Midi.midi.inputs.forEach( function( port ) {
+      if(port.name == name ) { 
+        input = port
+        return
+      }
+    })
+    return input
+  },
   
   addInputListener (input, messageHandler) {
       if (input === undefined) {

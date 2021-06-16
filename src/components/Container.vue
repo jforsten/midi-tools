@@ -12,25 +12,25 @@
           v-model="selectedInput"
           :items="inputs"
           item-text="name"
-          return-object
+          item-value="id"
           prepend-icon="mdi-midi-port"
         />
       </v-col>
       <v-col cols="4">
         <v-select
           label="MIDI output"
-          v-model="output"
+          v-model="selectedOutput"
           :items="outputs"
           item-text="name"
-          return-object
+          item-value="id"
           prepend-icon="mdi-midi-port"
         />
       </v-col>
       <v-col cols="4">
         <v-select
           label="Tool"
-          v-model="fxView"
-          :items="fxList"
+          v-model="selectedToolView"
+          :items="toolList"
           item-text="name"
           item-value="component"
           prepend-icon="mdi-wrench"
@@ -43,18 +43,21 @@
       </v-col>
     </v-row>
 
-    <component class="mt-5 px-0" @sendMidi="onSendMidi" :is="fxView" />
+    <component class="mt-5 px-0" @sendMidi="onSendMidi" :is="toolView" />
   </v-container>
 </template>
 
 <script>
 import { Midi } from '@/utils/midi'
+import { Storage } from '@/utils/storage'
+
+// Modules
 import PolyAftertouch from './midimodules/PolyAftertouch.vue'
 import ChannelChange from './midimodules/ChannelChange.vue'
 import Bypass from './midimodules/Bypass.vue'
 
 export default {
-  components: { PolyAftertouch, ChannelChange, Bypass},
+  components: { PolyAftertouch, ChannelChange, Bypass },
   name: 'Container',
 
   data: () => ({
@@ -62,13 +65,12 @@ export default {
     input: null,
     outputs: [],
     output: null,
-    fxList: [
+    toolList: [
       { name: 'Bypass', component: 'Bypass' },
       { name: 'Aftertouch Converter', component: 'PolyAftertouch' },
-      { name: 'Channel changer', component: 'ChannelChange' }
+      { name: 'Channel changer', component: 'ChannelChange' },
     ],
-    fx: null,
-    fxView: 'Bypass',
+    toolView: 'Bypass',
   }),
 
   computed: {
@@ -77,10 +79,31 @@ export default {
         return this.input
       },
       set: function(newValue) {
-        this.input = newValue
+        this.input = Midi.getInputById(newValue)
         Midi.addInputListener(this.input, this.onReceiveMidi)
+        console.warn(this.input)
+        this.saveSettings()
       },
     },
+    selectedOutput: {
+      get: function() {
+        return this.output
+      },
+      set: function(newValue) {
+        this.output = Midi.getOutputById(newValue)
+        console.warn(this.output)
+        this.saveSettings()
+      },
+    },
+    selectedToolView: {
+      get: function() {
+        return this.toolView
+      },
+      set: function(newValue) {
+        this.toolView = newValue
+        this.saveSettings()
+      }
+    }
   },
 
   methods: {
@@ -93,13 +116,44 @@ export default {
       if (this.input == null) return
       this.$root.$emit('onReceiveMidi', data.data)
     },
+
+    saveSettings() {
+      let inputName = null
+      let outputName = null 
+
+      if(this.input) {inputName = this.input.name}
+      if(this.output) {outputName = this.output.name}
+
+      let ports = {
+        inputName: inputName,
+        outputName: outputName,
+        tool: this.toolView
+      }
+
+      Storage.save('midi-tools-settings', ports)
+    },
+
+    loadSettings() {
+      let settings = Storage.load('midi-tools-settings')
+
+      if (settings == null) {
+        return
+      }
+
+      this.input = Midi.getInputByName(settings.inputName)
+      Midi.addInputListener(this.input, this.onReceiveMidi)
+      this.output = Midi.getOutputByName(settings.outputName)
+      this.toolView = settings.tool
+    },
   },
 
   mounted() {
     Midi.init().then(() => {
       this.inputs = Midi.getMidiIns()
       this.outputs = Midi.getMidiOuts()
+      this.loadSettings()
     })
   },
 }
+
 </script>
