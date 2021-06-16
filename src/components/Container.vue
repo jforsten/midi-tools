@@ -49,10 +49,12 @@
 
 <script>
 import { Midi } from '@/utils/midi'
-import PolyAftertouch from './tools/PolyAftertouch.vue'
-import ChannelChange from './tools/ChannelChange.vue'
+import PolyAftertouch from './midimodules/PolyAftertouch.vue'
+import ChannelChange from './midimodules/ChannelChange.vue'
+import Bypass from './midimodules/Bypass.vue'
+
 export default {
-  components: { PolyAftertouch, ChannelChange },
+  components: { PolyAftertouch, ChannelChange, Bypass},
   name: 'Container',
 
   data: () => ({
@@ -60,9 +62,13 @@ export default {
     input: null,
     outputs: [],
     output: null,
-    fxList: [{ name: 'Aftertouch Converter', component: 'PolyAftertouch' }],
+    fxList: [
+      { name: 'Bypass', component: 'Bypass' },
+      { name: 'Aftertouch Converter', component: 'PolyAftertouch' },
+      { name: 'Channel changer', component: 'ChannelChange' }
+    ],
     fx: null,
-    fxView: 'PolyAftertouch',
+    fxView: 'Bypass',
   }),
 
   computed: {

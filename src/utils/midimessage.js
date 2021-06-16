@@ -15,8 +15,12 @@ export const MidiMessage = {
 
   },
   
-  getType(midiData) {
+  getExactType(midiData) {
     return midiData[0] & 0xF0
+  },
+
+  isChannelType(midiData) {
+    return (midiData[0] >= 0x80 && midiData[0] < 0xF0)
   },
 
   getMidiChannel(midiData) {
@@ -24,7 +28,7 @@ export const MidiMessage = {
   },
 
   is(midiData, type) {
-    return this.getType(midiData) == type
+    return this.getExactType(midiData) == type
   },
 
   

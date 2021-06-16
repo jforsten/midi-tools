@@ -1,12 +1,16 @@
 <template>
   <v-app>
     <v-app-bar app color="primary" dark>
-      <v-app-bar-title>MIDI.TOOLS</v-app-bar-title>
+      <v-toolbar-title fixed>
+        <v-icon>mdi-midi-port</v-icon>
+        midi.tools
+      </v-toolbar-title>
     </v-app-bar>
 
     <v-main class="grey lighten-2">
       <Container />
     </v-main>
+
   </v-app>
 </template>
 
