@@ -2,7 +2,7 @@
   <v-container>
     <v-card>
       <v-card-title>
-        Channel aftertouch to Polyphone aftertouch
+        Channel to Polyphonic aftertouch
         <indicator :color="indicator.color" />
       </v-card-title>
     </v-card>
