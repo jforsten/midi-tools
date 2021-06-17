@@ -59,7 +59,7 @@ export const Midi = {
   },
   
   addInputListener (input, messageHandler) {
-      if (input === undefined) {
+      if (input == null) {
         console.log('Midi: No input to add listener!')
         return
       }

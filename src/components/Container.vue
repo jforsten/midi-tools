@@ -55,9 +55,11 @@ import { Storage } from '@/utils/storage'
 import PolyAftertouch from './midimodules/PolyAftertouch.vue'
 import ChannelChange from './midimodules/ChannelChange.vue'
 import Bypass from './midimodules/Bypass.vue'
+import Tremolo from './midimodules/Tremolo.vue'
+import Compressor from './midimodules/Compressor.vue'
 
 export default {
-  components: { PolyAftertouch, ChannelChange, Bypass },
+  components: { PolyAftertouch, ChannelChange, Bypass, Tremolo, Compressor },
   name: 'Container',
 
   data: () => ({
@@ -69,6 +71,8 @@ export default {
       { name: 'Bypass', component: 'Bypass' },
       { name: 'Aftertouch Converter', component: 'PolyAftertouch' },
       { name: 'Channel changer', component: 'ChannelChange' },
+      { name: 'Tremolo', component: 'Tremolo' },
+       { name: 'Compressor', component: 'Compressor' },
     ],
     toolView: 'Bypass',
   }),
