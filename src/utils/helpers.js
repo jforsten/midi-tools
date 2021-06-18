@@ -1,5 +1,9 @@
 export const Helpers = {
 
+    clamp(value, min, max) {
+        return Math.min(Math.max(value, min), max);
+    },
+
     blink(prop) {
         prop.color = prop.activeColor
         this.delay(50).then(() => {

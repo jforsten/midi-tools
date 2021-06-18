@@ -42,7 +42,6 @@
         SELECTED TOOL
       </v-col>
     </v-row>
-
     <component class="mt-5 px-0" @sendMidi="onSendMidi" :is="toolView" />
   </v-container>
 </template>
@@ -72,7 +71,7 @@ export default {
       { name: 'Aftertouch Converter', component: 'PolyAftertouch' },
       { name: 'Channel changer', component: 'ChannelChange' },
       { name: 'Tremolo', component: 'Tremolo' },
-       { name: 'Compressor', component: 'Compressor' },
+       { name: 'Compressor / Limitter', component: 'Compressor' },
     ],
     toolView: 'Bypass',
   }),

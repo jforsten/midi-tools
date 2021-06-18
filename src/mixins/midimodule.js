@@ -29,12 +29,13 @@ export default {
         },
 
     },
+
     mounted() {
         this.$root.$on('onReceiveMidi', this.receive)
-        
-      },
+    },
     
-      beforeDestroy() {
+    beforeDestroy() {
         this.$root.$off('onReceiveMidi')
-      },
+    },
+
   }
