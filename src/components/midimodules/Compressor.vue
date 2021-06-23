@@ -7,17 +7,18 @@
       </v-card-title>
       <v-container>
         <v-row>
-          <v-col cols="4">
-            <v-card color="grey lighten-2">
-              <!-- <v-sparkline height="250" :value="values" line-width="3" /> -->
+          <v-col cols="12" sm="4">
+            <v-card color="grey lighten-2 mb-8">
               <LineChart :labels="labels" :values="values" />
             </v-card>
           </v-col>
-          <v-col cols="6">
+          <v-col cols="12" sm="8">
             <v-row>
+              <v-col cols="3">
+                Gain
+              </v-col>
               <v-col>
                 <v-slider
-                  label="Gain"
                   thumb-label="always"
                   v-model="gain"
                   min="-127"
@@ -26,9 +27,11 @@
               </v-col>
             </v-row>
             <v-row>
+              <v-col cols="3">
+                Scale
+              </v-col>
               <v-col>
                 <v-slider
-                  label="Scale"
                   thumb-label="always"
                   v-model="scale"
                   min="-5"
@@ -38,9 +41,11 @@
               </v-col>
             </v-row>
             <v-row>
+              <v-col cols="3">
+                Threshold
+              </v-col>
               <v-col>
                 <v-slider
-                  label="Threshold"
                   thumb-label="always"
                   v-model="threshold"
                   min="0"
@@ -72,18 +77,15 @@ export default {
   components: { LineChart },
 
   data: () => ({
-
     gain: 0,
     scale: 1,
     threshold: 0,
 
     labels: Array.from(Array(128).keys()),
     values: [],
-
   }),
 
   methods: {
-
     process(data) {
       if (MidiMessage.is(data, MidiMessage.Channel.NOTE_ON)) {
         data[2] = this.values[data[2]]
@@ -112,7 +114,6 @@ export default {
       this.scale = 1
       this.threshold = 0
     },
-
   },
 
   mounted() {
@@ -121,15 +122,14 @@ export default {
 
   watch: {
     gain: function() {
-        this.calcValues()
+      this.calcValues()
     },
     scale: function() {
-        this.calcValues()
+      this.calcValues()
     },
     threshold: function() {
-        this.calcValues()
+      this.calcValues()
     },
   },
-
 }
 </script>

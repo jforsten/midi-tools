@@ -6,7 +6,7 @@
       </v-col>
     </v-row>
     <v-row dense>
-      <v-col cols="4">
+      <v-col cols="6" sm="4">
         <v-select
           label="MIDI input"
           v-model="selectedInput"
@@ -16,7 +16,7 @@
           prepend-icon="mdi-midi-port"
         />
       </v-col>
-      <v-col cols="4">
+      <v-col cols="6" sm="4">
         <v-select
           label="MIDI output"
           v-model="selectedOutput"
@@ -26,7 +26,7 @@
           prepend-icon="mdi-midi-port"
         />
       </v-col>
-      <v-col cols="4">
+      <v-col cols="6" sm="4">
         <v-select
           label="Tool"
           v-model="selectedToolView"
@@ -68,10 +68,10 @@ export default {
     output: null,
     toolList: [
       { name: 'Bypass', component: 'Bypass' },
-      { name: 'Aftertouch Converter', component: 'PolyAftertouch' },
-      { name: 'Channel changer', component: 'ChannelChange' },
-      { name: 'Tremolo', component: 'Tremolo' },
-       { name: 'Compressor / Limitter', component: 'Compressor' },
+      { name: 'Aftertouch', component: 'PolyAftertouch' },
+      { name: 'Channel', component: 'ChannelChange' },
+     // { name: 'Tremolo', component: 'Tremolo' },
+       { name: 'Compressor', component: 'Compressor' },
     ],
     toolView: 'Bypass',
   }),

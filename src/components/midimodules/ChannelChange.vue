@@ -7,8 +7,7 @@
       </v-card-title>
       <v-container>
         <v-row class="pt-7 justify-center">
-          
-          <v-col cols="4">
+          <v-col cols="12" sm="4">
             <v-slider v-model="from" min="1" max="16" thumb-label="always">
               <template v-slot:prepend>
                 <v-icon @click="decrementFrom">
@@ -23,13 +22,17 @@
             </v-slider>
           </v-col>
 
-          <v-col cols="auto" class="mx-8 px-8">
-            <v-icon>
-              mdi-shuffle-variant
-            </v-icon>
+          <v-col cols="12" sm="3">
+            <v-row class="justify-center">
+              <v-col cols="1">
+                <v-icon>
+                  mdi-shuffle-variant
+                </v-icon>
+              </v-col>
+            </v-row>
           </v-col>
 
-          <v-col cols="4">
+          <v-col cols="12" sm="4">
             <v-slider v-model="to" min="1" max="16" thumb-label="always">
               <template v-slot:prepend>
                 <v-icon @click="decrementTo">
@@ -43,7 +46,6 @@
               </template>
             </v-slider>
           </v-col>
-          
         </v-row>
       </v-container>
     </v-card>
