@@ -31,5 +31,7 @@ export const MidiMessage = {
     return this.getExactType(midiData) == type
   },
 
-  
+  controlChange(channel, control, value) {
+    return [this.Channel.CONTROL_CHANGE + channel, control, value]
+  }
 }

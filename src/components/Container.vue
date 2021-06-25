@@ -56,9 +56,17 @@ import ChannelChange from './midimodules/ChannelChange.vue'
 import Bypass from './midimodules/Bypass.vue'
 import Tremolo from './midimodules/Tremolo.vue'
 import Compressor from './midimodules/Compressor.vue'
+import Echo from './midimodules/Echo.vue'
 
 export default {
-  components: { PolyAftertouch, ChannelChange, Bypass, Tremolo, Compressor },
+  components: {
+    PolyAftertouch,
+    ChannelChange,
+    Bypass,
+    Tremolo,
+    Compressor,
+    Echo,
+  },
   name: 'Container',
 
   data: () => ({
@@ -70,8 +78,9 @@ export default {
       { name: 'Bypass', component: 'Bypass' },
       { name: 'Aftertouch', component: 'PolyAftertouch' },
       { name: 'Channel', component: 'ChannelChange' },
-     // { name: 'Tremolo', component: 'Tremolo' },
-       { name: 'Compressor', component: 'Compressor' },
+      { name: 'Tremolo', component: 'Tremolo' },
+      { name: 'Compressor', component: 'Compressor' },
+      { name: 'Echo', component: 'Echo' },
     ],
     toolView: 'Bypass',
   }),
@@ -105,8 +114,8 @@ export default {
       set: function(newValue) {
         this.toolView = newValue
         this.saveSettings()
-      }
-    }
+      },
+    },
   },
 
   methods: {
@@ -122,15 +131,19 @@ export default {
 
     saveSettings() {
       let inputName = null
-      let outputName = null 
+      let outputName = null
 
-      if(this.input) {inputName = this.input.name}
-      if(this.output) {outputName = this.output.name}
+      if (this.input) {
+        inputName = this.input.name
+      }
+      if (this.output) {
+        outputName = this.output.name
+      }
 
       let ports = {
         inputName: inputName,
         outputName: outputName,
-        tool: this.toolView
+        tool: this.toolView,
       }
 
       Storage.save('midi-tools-settings', ports)
@@ -158,5 +171,4 @@ export default {
     })
   },
 }
-
 </script>

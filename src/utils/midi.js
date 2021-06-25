@@ -4,9 +4,9 @@
 export const Midi = {
   midi: null,
 
-  init () {
+  init ( sysex = false) {
       if (Midi.midi !== null) this.close()
-      return navigator.requestMIDIAccess({ sysex: false })
+      return navigator.requestMIDIAccess({ sysex: sysex })
       .then(this.onMIDISuccess, this.onMIDIFailure)
       .then(() => this.delay(50))
   },
