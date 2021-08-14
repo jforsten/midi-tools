@@ -3,7 +3,7 @@
     <v-app-bar app color="primary" dark>
       <v-toolbar-title fixed>
         <v-icon>mdi-midi-port</v-icon>
-        midi.tools - test
+        midi.tools
       </v-toolbar-title>
     </v-app-bar>
 
