@@ -5,7 +5,7 @@
         SETTINGS
       </v-col>
     </v-row>
-    <v-row dense>
+    <v-row dense align="center">
       <v-col cols="6" sm="4">
         <v-select
           label="MIDI input"
@@ -13,9 +13,28 @@
           :items="inputs"
           item-text="name"
           item-value="id"
-          prepend-icon="mdi-midi-port"
+          prepend-inner-icon="mdi-midi-port"
         />
       </v-col>
+      <v-col cols="auto" class="ms-6">
+        <v-icon large>mdi-transfer-right</v-icon>
+      </v-col>
+      <v-col cols="3" sm="2" class="mx-auto">
+        <v-select
+          class="mt-8"
+          label="Tool"
+          v-model="selectedToolView"
+          :items="toolList"
+          item-text="name"
+          item-value="component"
+          prepend-inner-icon="mdi-wrench"
+          solo
+        />
+      </v-col>
+       <v-col cols="auto" class="me-6">
+        <v-icon large>mdi-transfer-right</v-icon>
+      </v-col>
+
       <v-col cols="6" sm="4">
         <v-select
           label="MIDI output"
@@ -23,17 +42,7 @@
           :items="outputs"
           item-text="name"
           item-value="id"
-          prepend-icon="mdi-midi-port"
-        />
-      </v-col>
-      <v-col cols="6" sm="4">
-        <v-select
-          label="Tool"
-          v-model="selectedToolView"
-          :items="toolList"
-          item-text="name"
-          item-value="component"
-          prepend-icon="mdi-wrench"
+          prepend-inner-icon="mdi-midi-port"
         />
       </v-col>
     </v-row>
@@ -168,6 +177,7 @@ export default {
       this.inputs = Midi.getMidiIns()
       this.outputs = Midi.getMidiOuts()
       this.loadSettings()
+      Midi.listInputsAndOutputs()
     })
   },
 }
