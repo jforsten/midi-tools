@@ -67,13 +67,13 @@
 
 <script>
 import LineChart from '@/components/LineChart.vue'
-import midimodule from '@/mixins/midimodule'
+import toolbase from '@/mixins/toolbase'
 import { Helpers } from '@/utils/helpers'
 import { MidiMessage } from '@/utils/midimessage'
 
 export default {
   name: 'Compressor',
-  mixins: [midimodule],
+  mixins: [toolbase],
   components: { LineChart },
 
   data: () => ({

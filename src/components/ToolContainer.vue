@@ -68,12 +68,12 @@ import { Storage } from '@/utils/storage'
 import { Helpers } from '@/utils/helpers'
 
 // Modules
-import PolyAftertouch from './midimodules/PolyAftertouch.vue'
-import ChannelChange from './midimodules/ChannelChange.vue'
-import Bypass from './midimodules/Bypass.vue'
-import Tremolo from './midimodules/Tremolo.vue'
-import Compressor from './midimodules/Compressor.vue'
-import Echo from './midimodules/Echo.vue'
+import PolyAftertouch from './tools/PolyAftertouch.vue'
+import ChannelChange from './tools/ChannelChange.vue'
+import Bypass from './tools/Bypass.vue'
+import Tremolo from './tools/Tremolo.vue'
+import Compressor from './tools/Compressor.vue'
+import Echo from './tools/Echo.vue'
 import LogViewer from '@femessage/log-viewer'
 
 export default {
@@ -86,7 +86,7 @@ export default {
     Compressor,
     Echo,
   },
-  name: 'Container',
+  name: 'ToolContainer',
 
   data: () => ({
     inputs: [],
@@ -153,6 +153,7 @@ export default {
       if (this.isMonitoring) {
         this.log = this.log + 'IN:  ' + Helpers.buf2hex(data.data) + '\n'
       }
+      console.log(data)
       this.$root.$emit('onReceiveMidi', data.data)
     },
 

@@ -8,20 +8,20 @@
     </v-app-bar>
 
     <v-main class="grey lighten-2">
-      <Container />
+      <ToolContainer />
     </v-main>
 
   </v-app>
 </template>
 
 <script>
-import Container from './components/Container'
+import ToolContainer from './components/ToolContainer'
 
 export default {
   name: 'App',
 
   components: {
-    Container,
+    ToolContainer,
   },
 
   data: () => ({}),

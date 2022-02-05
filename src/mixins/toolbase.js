@@ -20,8 +20,9 @@ export default {
             this.$emit('sendMidi', data)
         },
 
-        process() {
-            // overload in component!
+         // overload in component!
+        process(data) {
+            console.log(data)
         },
 
         showIndicator() {

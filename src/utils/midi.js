@@ -2,14 +2,14 @@ export const Midi = {
   midi: null,
 
   init(sysex = false) {
-    if (Midi.midi !== null) this.close()
+    if (Midi.midi !== null) this.removeAllInputHandlers()
     return navigator
       .requestMIDIAccess({ sysex: sysex })
       .then(this.onMIDISuccess, this.onMIDIFailure)
       .then(() => this.delay(50))
   },
 
-  close() {
+  removeAllInputHandlers() {
     var allInputs = Midi.midi.inputs.values()
     for (
       var input = allInputs.next();
@@ -96,12 +96,14 @@ export const Midi = {
     return input
   },
 
-  addInputListener(input, messageHandler) {
+  addInputListener(input, messageHandler, removeAllExisting = true) {
     if (input == null) {
       console.log('Midi: No input to add listener!')
       return
     }
-    this.close()
+    if(removeAllExisting) {
+      this.removeAllInputHandlers()
+    }
     input.onmidimessage = messageHandler
     console.log('Midi: Added listener to input:' + input.name)
   },

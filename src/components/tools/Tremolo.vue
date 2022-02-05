@@ -69,12 +69,12 @@
 </template>
 
 <script>
-import midimodule from '@/mixins/midimodule'
+import toolbase from '@/mixins/toolbase'
 import { MidiMessage } from '@/utils/midimessage'
 
 export default {
   name: 'Tremolo',
-  mixins: [midimodule],
+  mixins: [toolbase],
 
   data: () => ({
     timerId: null,

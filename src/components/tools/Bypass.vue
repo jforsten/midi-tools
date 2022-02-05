@@ -15,13 +15,12 @@
 </template>
 
 <script>
-import midimodule from '@/mixins/midimodule'
-//import { MidiMessage } from '@/utils/midimessage'
+import toolbase from '@/mixins/toolbase'
 
 export default {
   
   name: 'Bypass',
-  mixins: [midimodule],
+  mixins: [toolbase],
   props: {},
 
   data: () => ({ }),

@@ -31,13 +31,13 @@
 </template>
 
 <script>
-import midimodule from '@/mixins/midimodule'
+import toolbase from '@/mixins/toolbase'
 import { Helpers } from '@/utils/helpers'
 import { MidiMessage } from '@/utils/midimessage'
 
 export default {
   name: 'Echo',
-  mixins: [midimodule],
+  mixins: [toolbase],
   props: {},
 
   data: () => ({
