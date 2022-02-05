@@ -1,8 +1,12 @@
 <template>
   <v-container>
-    <v-row class="">
-      <v-col>
+    <v-row align="center" justify="center" dense>
+      <v-col cols="auto">
         SETTINGS
+      </v-col>
+      <v-spacer />
+      <v-col cols="auto">
+        <v-switch dense label="Show log" v-model="isMonitoring" />
       </v-col>
     </v-row>
     <v-row dense align="center">
@@ -31,7 +35,7 @@
           solo
         />
       </v-col>
-       <v-col cols="auto" class="me-6">
+      <v-col cols="auto" class="me-6">
         <v-icon large>mdi-transfer-right</v-icon>
       </v-col>
 
@@ -52,12 +56,16 @@
       </v-col>
     </v-row>
     <component class="mt-5 px-0" @sendMidi="onSendMidi" :is="toolView" />
+    <v-expand-transition>
+      <log-viewer :log="log" v-show="isMonitoring" />
+    </v-expand-transition>
   </v-container>
 </template>
 
 <script>
 import { Midi } from '@/utils/midi'
 import { Storage } from '@/utils/storage'
+import { Helpers } from '@/utils/helpers'
 
 // Modules
 import PolyAftertouch from './midimodules/PolyAftertouch.vue'
@@ -66,9 +74,11 @@ import Bypass from './midimodules/Bypass.vue'
 import Tremolo from './midimodules/Tremolo.vue'
 import Compressor from './midimodules/Compressor.vue'
 import Echo from './midimodules/Echo.vue'
+import LogViewer from '@femessage/log-viewer'
 
 export default {
   components: {
+    LogViewer,
     PolyAftertouch,
     ChannelChange,
     Bypass,
@@ -92,6 +102,8 @@ export default {
       { name: 'Echo', component: 'Echo' },
     ],
     toolView: 'Bypass',
+    isMonitoring: false,
+    log: '',
   }),
 
   computed: {
@@ -130,11 +142,17 @@ export default {
   methods: {
     onSendMidi(data) {
       if (this.output == null) return
+      if (this.isMonitoring) {
+        this.log = this.log + 'OUT: ' + Helpers.buf2hex(data) + '\n'
+      }
       Midi.send(this.output, data)
     },
 
     onReceiveMidi(data) {
       if (this.input == null) return
+      if (this.isMonitoring) {
+        this.log = this.log + 'IN:  ' + Helpers.buf2hex(data.data) + '\n'
+      }
       this.$root.$emit('onReceiveMidi', data.data)
     },
 
@@ -178,7 +196,19 @@ export default {
       this.outputs = Midi.getMidiOuts()
       this.loadSettings()
       Midi.listInputsAndOutputs()
+      //this.log =
+      //  'normal\x1b[30mcolor is black\x1b[0m\x1b[31;1mcolor is red and bold is true\x1b[0m\x1b[32;3mcolor is green and italic is true\x1b[0m\x1b[33;4mcolor is yellow and underline is true\x1b[0m\x1b[30;47mcolor is black and background is white\x1b[0m\x1b[30;39mcolor is reset\x1b[0m\x1b[40;49mbackground is reset\x1b[0m\x1b[1;22mbold is false\x1b[0m\x1b[3;23mitalic is false\x1b[0m\x1b[4;24munderline is false\x1b[0m'
     })
   },
 }
 </script>
+
+<style scoped>
+.log-viewer {
+  font-family: monospace !important;
+  font-size: 16px !important;
+  /* background-color: rgb(107, 39, 39) !important; */
+  overflow-x: auto;
+  padding: 20px 0;
+}
+</style>
