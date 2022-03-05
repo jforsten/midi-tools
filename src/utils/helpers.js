@@ -19,6 +19,14 @@ export const Helpers = {
         return [...new Uint8Array(buffer)]
             .map(x => x.toString(16).padStart(2, '0'))
             .join(' ')
+    },
+
+    hex2buf(hex) {
+        hex = hex.replace(/\s/g, '')
+        var buf = new Uint8Array(hex.match(/[\da-f]{2}/gi).map(function (h) {
+            return parseInt(h, 16)
+          }))
+        return buf
     }
 
 }

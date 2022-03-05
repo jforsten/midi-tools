@@ -6,7 +6,7 @@
       </v-col>
       <v-spacer />
       <v-col cols="auto">
-        <v-switch dense label="Show log" v-model="isMonitoring" />
+        <v-switch dense label="Debug" v-model="isMonitoring" />
       </v-col>
     </v-row>
     <v-row dense align="center">
@@ -57,7 +57,29 @@
     </v-row>
     <component class="mt-5 px-0" @sendMidi="onSendMidi" :is="toolView" />
     <v-expand-transition>
-      <log-viewer :log="log" v-show="isMonitoring" />
+      <div v-show="isMonitoring">
+        <log-viewer :log="log" />
+        <v-row class="py-4">
+          <v-col cols="11">
+            <v-text-field
+              v-model="debugSendData"
+              dense
+              clearable
+              label="Data to send (in hex)"
+              @keydown.enter.prevent="submit"
+              @keydown.up.prevent="previous"
+              @keydown.down.prevent="next"
+            ></v-text-field>
+          </v-col>
+          <v-col>
+            <v-btn x-small @click="submit" fab>
+              <v-icon dark>
+                mdi-send
+              </v-icon>
+            </v-btn>
+          </v-col>
+        </v-row>
+      </div>
     </v-expand-transition>
   </v-container>
 </template>
@@ -102,8 +124,10 @@ export default {
       { name: 'Echo', component: 'Echo' },
     ],
     toolView: 'Bypass',
-    isMonitoring: false,
+    isMonitoring: true,
     log: '',
+    debugSendData: null,
+    previousDebugSendData: null
   }),
 
   computed: {
@@ -157,6 +181,27 @@ export default {
       this.$root.$emit('onReceiveMidi', data.data)
     },
 
+    submit() {
+      if (this.debugSendData == null) return
+
+      var data = Helpers.hex2buf(this.debugSendData)
+
+      if (data) {
+        this.onSendMidi(data)
+      }
+
+      this.previousDebugSendData = this.debugSendData
+      this.debugSendData = null
+    },
+
+    previous() {
+      this.debugSendData = this.previousDebugSendData
+    },
+    
+    next() {
+            this.debugSendData = null
+    },
+
     saveSettings() {
       let inputName = null
       let outputName = null
@@ -192,7 +237,7 @@ export default {
   },
 
   mounted() {
-    Midi.init().then(() => {
+    Midi.init(true).then(() => {
       this.inputs = Midi.getMidiIns()
       this.outputs = Midi.getMidiOuts()
       this.loadSettings()
