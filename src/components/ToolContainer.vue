@@ -124,7 +124,7 @@ export default {
       { name: 'Echo', component: 'Echo' },
     ],
     toolView: 'Bypass',
-    isMonitoring: true,
+    isMonitoring: false,
     log: '',
     debugSendData: null,
     previousDebugSendData: null
@@ -197,7 +197,7 @@ export default {
     previous() {
       this.debugSendData = this.previousDebugSendData
     },
-    
+
     next() {
             this.debugSendData = null
     },
