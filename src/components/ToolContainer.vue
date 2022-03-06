@@ -10,20 +10,18 @@
       </v-col>
     </v-row>
     <v-row dense align="center">
-      <v-col cols="6" sm="4">
+      <v-col cols="8" sm="4">
         <v-select
           label="MIDI input"
           v-model="selectedInput"
           :items="inputs"
           item-text="name"
           item-value="id"
+          append-outer-icon="mdi-transfer-right"
           prepend-inner-icon="mdi-midi-port"
         />
       </v-col>
-      <v-col cols="auto" class="ms-6">
-        <v-icon large>mdi-transfer-right</v-icon>
-      </v-col>
-      <v-col cols="3" sm="2" class="mx-auto">
+      <v-col cols="11" sm="4" class="mx-auto">
         <v-select
           class="mt-8"
           label="Tool"
@@ -35,17 +33,15 @@
           solo
         />
       </v-col>
-      <v-col cols="auto" class="me-6">
-        <v-icon large>mdi-transfer-right</v-icon>
-      </v-col>
 
-      <v-col cols="6" sm="4">
+      <v-col cols="8" sm="4">
         <v-select
           label="MIDI output"
           v-model="selectedOutput"
           :items="outputs"
           item-text="name"
           item-value="id"
+          prepend-icon="mdi-transfer-right"
           prepend-inner-icon="mdi-midi-port"
         />
       </v-col>
