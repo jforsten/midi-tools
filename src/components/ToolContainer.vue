@@ -5,7 +5,10 @@
         SETTINGS
       </v-col>
       <v-spacer />
-      <v-col cols="auto">
+      <v-col cols="12" sm="auto" class="mx-8">
+        <v-switch dense label="Allow SysEx" v-model="useSysex" />
+      </v-col>
+      <v-col cols="12" sm="auto">
         <v-switch dense label="Debug" v-model="isMonitoring" />
       </v-col>
     </v-row>
@@ -120,10 +123,11 @@ export default {
       { name: 'Echo', component: 'Echo' },
     ],
     toolView: 'Bypass',
+    internalUseSysex: false,
     isMonitoring: false,
     log: '',
     debugSendData: null,
-    previousDebugSendData: null
+    previousDebugSendData: null,
   }),
 
   computed: {
@@ -157,6 +161,24 @@ export default {
         this.saveSettings()
       },
     },
+    useSysex: {
+       get: function() {
+          let sysex = Storage.load('midi-tools-settings-use-sysex')
+
+        if (sysex == null) {
+          return false
+        }
+
+        return sysex
+      },
+      set: function(newValue) {
+        Storage.save('midi-tools-settings-use-sysex', newValue)
+        if (newValue) {
+          this.saveSettings()
+          this.initialize(newValue)
+        }
+      },
+    }
   },
 
   methods: {
@@ -195,7 +217,7 @@ export default {
     },
 
     next() {
-            this.debugSendData = null
+      this.debugSendData = null
     },
 
     saveSettings() {
@@ -230,17 +252,21 @@ export default {
       this.output = Midi.getOutputByName(settings.outputName)
       this.toolView = settings.tool
     },
+
+    initialize(sysex) {
+      Midi.init(sysex).then(() => {
+        this.inputs = Midi.getMidiIns()
+        this.outputs = Midi.getMidiOuts()
+        this.loadSettings()
+        Midi.listInputsAndOutputs()
+        //this.log =
+        //  'normal\x1b[30mcolor is black\x1b[0m\x1b[31;1mcolor is red and bold is true\x1b[0m\x1b[32;3mcolor is green and italic is true\x1b[0m\x1b[33;4mcolor is yellow and underline is true\x1b[0m\x1b[30;47mcolor is black and background is white\x1b[0m\x1b[30;39mcolor is reset\x1b[0m\x1b[40;49mbackground is reset\x1b[0m\x1b[1;22mbold is false\x1b[0m\x1b[3;23mitalic is false\x1b[0m\x1b[4;24munderline is false\x1b[0m'
+      })
+    },
   },
 
   mounted() {
-    Midi.init(true).then(() => {
-      this.inputs = Midi.getMidiIns()
-      this.outputs = Midi.getMidiOuts()
-      this.loadSettings()
-      Midi.listInputsAndOutputs()
-      //this.log =
-      //  'normal\x1b[30mcolor is black\x1b[0m\x1b[31;1mcolor is red and bold is true\x1b[0m\x1b[32;3mcolor is green and italic is true\x1b[0m\x1b[33;4mcolor is yellow and underline is true\x1b[0m\x1b[30;47mcolor is black and background is white\x1b[0m\x1b[30;39mcolor is reset\x1b[0m\x1b[40;49mbackground is reset\x1b[0m\x1b[1;22mbold is false\x1b[0m\x1b[3;23mitalic is false\x1b[0m\x1b[4;24munderline is false\x1b[0m'
-    })
+    this.initialize(this.useSysex)
   },
 }
 </script>
