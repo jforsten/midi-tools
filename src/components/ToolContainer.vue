@@ -5,8 +5,11 @@
         SETTINGS
       </v-col>
       <v-spacer />
-      <v-col cols="12" sm="auto" class="mx-8">
+      <v-col cols="12" sm="auto">
         <v-switch dense label="Allow SysEx" v-model="useSysex" />
+      </v-col>
+      <v-col cols="12" sm="auto" class="mx-8">
+        <v-switch dense label="Filter Active Sensing messages" v-model="filterActiveSensing" />
       </v-col>
       <v-col cols="12" sm="auto">
         <v-switch dense label="Debug" v-model="isMonitoring" />
@@ -95,6 +98,8 @@ import Bypass from './tools/Bypass.vue'
 import Tremolo from './tools/Tremolo.vue'
 import Compressor from './tools/Compressor.vue'
 import Echo from './tools/Echo.vue'
+import QuickControl from './tools/QuickControls.vue'
+
 import LogViewer from '@femessage/log-viewer'
 
 export default {
@@ -106,6 +111,7 @@ export default {
     Tremolo,
     Compressor,
     Echo,
+    QuickControl
   },
   name: 'ToolContainer',
 
@@ -121,8 +127,10 @@ export default {
       { name: 'Tremolo', component: 'Tremolo' },
       { name: 'Compressor', component: 'Compressor' },
       { name: 'Echo', component: 'Echo' },
+      { name: 'QuickControl', component: 'QuickControl' },
     ],
     toolView: 'Bypass',
+    filterActiveSensing: false,
     internalUseSysex: false,
     isMonitoring: false,
     log: '',
@@ -192,6 +200,7 @@ export default {
 
     onReceiveMidi(data) {
       if (this.input == null) return
+      if (this.filterActiveSensing && data.data[0] == 0xFE) return
       if (this.isMonitoring) {
         this.log = this.log + 'IN:  ' + Helpers.buf2hex(data.data) + '\n'
       }
