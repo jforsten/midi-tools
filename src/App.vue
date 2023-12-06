@@ -12,7 +12,7 @@
     <v-main class="grey lighten-2">
       <ToolContainer />
     </v-main>
-  <div class="copyright pe-2"> ©Juha Forsten 2022 </div>
+  <div class="copyright pe-2"> ©Juha Forstén 2023 </div>
   </v-app>
 </template>
 
